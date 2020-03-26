@@ -9,7 +9,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 /**
- * @author 张一然
+ * @author
  * @date 2020/1/29 上午10:50
  */
 public class App extends Application {

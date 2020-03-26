@@ -3,7 +3,7 @@ package elan.test.fx;
 import javafx.application.Application;
 
 /**
- * @author 张一然
+ * @author
  * @date 2020/1/29 下午8:36
  */
 public class AppLauncher {
