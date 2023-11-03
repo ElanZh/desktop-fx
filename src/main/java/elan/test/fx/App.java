@@ -1,35 +1,40 @@
 package elan.test.fx;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-/**
- * @author
- * @date 2020/1/29 上午10:50
- */
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
 public class App extends Application {
-    public static void main(String[] args) {
-        launch(args);
+    private ConfigurableApplicationContext context;
+
+    @Override
+    public void init() throws Exception {
+        context = new SpringApplicationBuilder(App.class).run();
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        Text text = new Text("Hello JavaFX11");
-        text.setFont(Font.font("Microsoft YaHei Mono", FontWeight.BOLD, 40));
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/index.fxml"));
+        fxmlLoader.setControllerFactory(context::getBean); // 使用Spring的BeanFactory作为控制器的工厂
 
-        HBox hBox = new HBox();
-        hBox.setPrefHeight(400);
-        hBox.setPrefWidth(400);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().add(text);
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, 800, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-        Scene scene = new Scene(hBox);
-        stage.setScene(scene);
-        stage.show();
+    @Override
+    public void stop() throws Exception {
+        context.close();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
